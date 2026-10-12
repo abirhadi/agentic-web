@@ -1,0 +1,155 @@
+{
+  "task_spec": {
+    "task_id": "hello_world_website",
+    "name": "Responsive Hello World Website",
+    "original_requirements": "Build a responsive website displaying 'Hello world'.",
+    "runtime": {
+      "kind": "single_html",
+      "entrypoint": "index.html"
+    },
+    "features": [
+      {
+        "id": "display_hello_world",
+        "description": "The website must display the text 'Hello world'.",
+        "acceptance_criteria": [
+          "The displayed content must contain the exact text 'Hello world'."
+        ],
+        "required": true,
+        "verification": "browser"
+      },
+      {
+        "id": "responsive_design",
+        "description": "The website layout must adapt and function correctly across various screen sizes (desktop and mobile).",
+        "acceptance_criteria": [
+          "The content must be readable and usable on desktop viewports.",
+          "The content must be readable and usable on mobile viewports."
+        ],
+        "required": true,
+        "verification": "browser"
+      }
+    ],
+    "supporting_context": null,
+    "description": "A basic single-page website that displays 'Hello world' and is guaranteed to adapt its layout for responsiveness.",
+    "nonfunctional_requirements": [],
+    "verification": {
+      "enabled": true,
+      "timeout_ms": 5000,
+      "total_timeout_seconds": 120,
+      "screenshots": true,
+      "accessibility": true,
+      "required_content": [
+        "Hello world"
+      ]
+    },
+    "tests": [
+      {
+        "test_id": "verify_hello_world_text",
+        "requirement_id": "display_hello_world",
+        "test_type": "browser",
+        "universal_checks": [],
+        "preconditions": [],
+        "actions": [],
+        "expected_results": [
+          {
+            "assertion": "visible",
+            "selector": "body"
+          },
+          {
+            "assertion": "contains_text",
+            "selector": "body",
+            "value": "Hello world"
+          }
+        ],
+        "required": true
+      },
+      {
+        "test_id": "verify_responsiveness_desktop",
+        "requirement_id": "responsive_design",
+        "test_type": "browser",
+        "universal_checks": [
+          "desktop_loads",
+          "desktop_renders",
+          "desktop_no_horizontal_overflow"
+        ],
+        "preconditions": [],
+        "actions": [],
+        "expected_results": [
+          {
+            "assertion": "visible",
+            "selector": "body"
+          }
+        ],
+        "required": true
+      },
+      {
+        "test_id": "verify_responsiveness_mobile",
+        "requirement_id": "responsive_design",
+        "test_type": "browser",
+        "universal_checks": [
+          "mobile_loads",
+          "mobile_renders",
+          "mobile_no_horizontal_overflow"
+        ],
+        "preconditions": [],
+        "actions": [],
+        "expected_results": [
+          {
+            "assertion": "visible",
+            "selector": "body"
+          }
+        ],
+        "required": true
+      }
+    ]
+  },
+  "requirement_traceability": [
+    {
+      "requirement_id": "display_hello_world",
+      "origin": "explicit",
+      "rationale": "The user explicitly requested the website to display 'Hello world'.",
+      "sources": [
+        {
+          "source": "request",
+          "quote": "Build a responsive website displaying 'Hello world'."
+        }
+      ]
+    },
+    {
+      "requirement_id": "responsive_design",
+      "origin": "explicit",
+      "rationale": "The user explicitly requested the website to be 'responsive'. This implies adaptive layout for various devices.",
+      "sources": [
+        {
+          "source": "request",
+          "quote": "Build a responsive website displaying 'Hello world'."
+        }
+      ]
+    }
+  ],
+  "constraint_traceability": [
+    {
+      "target": "runtime",
+      "origin": "explicit",
+      "rationale": "The user provided the implemented runtime as 'single_html'.",
+      "sources": [
+        {
+          "source": "context",
+          "quote": "implemented_runtimes\": [\"single_html\"]"
+        }
+      ]
+    },
+    {
+      "target": "technology_constraint",
+      "origin": "framework_default",
+      "rationale": "The default runtime specified is 'single_html' with an entrypoint of index.html.",
+      "sources": [
+        {
+          "source": "context",
+          "quote": "\"default_runtime\": {\"kind\": \"single_html\", \"entrypoint\": \"index.html\"}"
+        }
+      ]
+    }
+  ],
+  "missing_information": [],
+  "unresolved_ambiguities": []
+}

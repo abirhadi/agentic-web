@@ -1,0 +1,8 @@
+
+{
+  "dependencies": ["."],
+  "graphs": {
+    "eventhub": "./test_langgraph.py:app"
+  },
+  "env": ".env"
+}

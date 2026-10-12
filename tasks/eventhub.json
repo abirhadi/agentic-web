@@ -1,0 +1,326 @@
+{
+  "task_id": "eventhub",
+  "name": "EventHub",
+  "description": "Community event discovery and management",
+  "original_requirements": "Build EventHub, a responsive offline community event website. Display six fictional events with dates, categories and locations, live search, category filtering, a working add-event form, registration confirmation, navigation, a headline and footer. Use one HTML file with embedded CSS and vanilla JavaScript and accessible labels. Use data-testid hooks event-card, event-search, category-filter, add-event-form, register-button and registration-feedback. Provide exactly three Music and three Art initial events; include Community Music Night as a unique searchable title. Form fields have names title, date, location and category; category values are Music and Art.",
+  "runtime": {
+    "kind": "single_html",
+    "entrypoint": "index.html"
+  },
+  "technology_constraints": [
+    "One HTML document with inline CSS and vanilla JavaScript",
+    "Offline operation without external libraries or remote assets"
+  ],
+  "features": [
+    {
+      "id": "list",
+      "description": "Display six events with date, category and location",
+      "acceptance_criteria": [
+        "Six event cards are initially visible"
+      ],
+      "required": true
+    },
+    {
+      "id": "search",
+      "description": "Search events by title",
+      "acceptance_criteria": [
+        "Search selects the matching event and supports no matches"
+      ],
+      "required": true
+    },
+    {
+      "id": "filter",
+      "description": "Filter events by category",
+      "acceptance_criteria": [
+        "Music selects exactly the three Music events"
+      ],
+      "required": true
+    },
+    {
+      "id": "add",
+      "description": "Add a new event from a form",
+      "acceptance_criteria": [
+        "New event is displayed with entered title and location"
+      ],
+      "required": true
+    },
+    {
+      "id": "register",
+      "description": "Register for an event with visible feedback",
+      "acceptance_criteria": [
+        "Registration feedback contains confirmation"
+      ],
+      "required": true
+    },
+    {
+      "id": "layout",
+      "description": "Include navigation, headline and footer",
+      "acceptance_criteria": [
+        "The required document regions render"
+      ],
+      "required": true
+    }
+  ],
+  "nonfunctional_requirements": [
+    {
+      "id": "responsive",
+      "description": "Render at desktop and mobile widths without horizontal overflow",
+      "acceptance_criteria": [
+        "No overflow at 1366px and 390px"
+      ],
+      "required": true
+    },
+    {
+      "id": "accessible",
+      "description": "Provide document language, title, image alternatives and accessible control labels",
+      "acceptance_criteria": [
+        "Pass the basic named-control checks"
+      ],
+      "required": true
+    }
+  ],
+  "verification": {
+    "required_content": [
+      "EventHub"
+    ]
+  },
+  "tests": [
+    {
+      "test_id": "list-acceptance",
+      "requirement_id": "list",
+      "test_type": "browser",
+      "required": true,
+      "preconditions": [],
+      "actions": [],
+      "expected_results": [
+        {
+          "assertion": "count",
+          "selector": "[data-testid=\"event-card\"]",
+          "value": 6
+        },
+        {
+          "assertion": "contains_text",
+          "selector": "[data-testid=\"event-card\"]:first-child",
+          "value": "Community Music Night"
+        }
+      ]
+    },
+    {
+      "test_id": "search-acceptance",
+      "requirement_id": "search",
+      "test_type": "browser",
+      "required": true,
+      "preconditions": [
+        {
+          "assertion": "count",
+          "selector": "[data-testid=\"event-card\"]",
+          "value": 6
+        }
+      ],
+      "actions": [
+        {
+          "action": "fill",
+          "selector": "[data-testid=\"event-search\"]",
+          "value": "Community Music Night"
+        }
+      ],
+      "expected_results": [
+        {
+          "assertion": "count",
+          "selector": "[data-testid=\"event-card\"]",
+          "value": 1
+        },
+        {
+          "assertion": "contains_text",
+          "selector": "[data-testid=\"event-card\"]",
+          "value": "Community Music Night"
+        }
+      ]
+    },
+    {
+      "test_id": "search_zero-acceptance",
+      "requirement_id": "search",
+      "test_type": "browser",
+      "required": true,
+      "preconditions": [
+        {
+          "assertion": "count",
+          "selector": "[data-testid=\"event-card\"]",
+          "value": 6
+        }
+      ],
+      "actions": [
+        {
+          "action": "fill",
+          "selector": "[data-testid=\"event-search\"]",
+          "value": "__no_match__"
+        }
+      ],
+      "expected_results": [
+        {
+          "assertion": "count",
+          "selector": "[data-testid=\"event-card\"]",
+          "value": 0
+        }
+      ]
+    },
+    {
+      "test_id": "filter-acceptance",
+      "requirement_id": "filter",
+      "test_type": "browser",
+      "required": true,
+      "preconditions": [
+        {
+          "assertion": "count",
+          "selector": "[data-testid=\"event-card\"]",
+          "value": 6
+        }
+      ],
+      "actions": [
+        {
+          "action": "select",
+          "selector": "[data-testid=\"category-filter\"]",
+          "value": "Music"
+        }
+      ],
+      "expected_results": [
+        {
+          "assertion": "count",
+          "selector": "[data-testid=\"event-card\"]",
+          "value": 3
+        },
+        {
+          "assertion": "count",
+          "selector": "[data-testid=\"event-card\"][data-category=\"Art\"]",
+          "value": 0
+        }
+      ]
+    },
+    {
+      "test_id": "add-acceptance",
+      "requirement_id": "add",
+      "test_type": "browser",
+      "required": true,
+      "preconditions": [
+        {
+          "assertion": "count",
+          "selector": "[data-testid=\"event-card\"]",
+          "value": 6
+        }
+      ],
+      "actions": [
+        {
+          "action": "fill",
+          "selector": "[name=\"title\"]",
+          "value": "Browser Test Event"
+        },
+        {
+          "action": "fill",
+          "selector": "[name=\"date\"]",
+          "value": "2027-01-01"
+        },
+        {
+          "action": "fill",
+          "selector": "[name=\"location\"]",
+          "value": "Test Hall"
+        },
+        {
+          "action": "select",
+          "selector": "[name=\"category\"]",
+          "value": "Art"
+        },
+        {
+          "action": "click",
+          "selector": "[data-testid=\"add-event-form\"] button[type=\"submit\"]"
+        }
+      ],
+      "expected_results": [
+        {
+          "assertion": "count",
+          "selector": "[data-testid=\"event-card\"]",
+          "value": 7
+        },
+        {
+          "assertion": "contains_text",
+          "selector": "[data-testid=\"event-card\"]:last-child",
+          "value": "Browser Test Event"
+        },
+        {
+          "assertion": "contains_text",
+          "selector": "[data-testid=\"event-card\"]:last-child",
+          "value": "Test Hall"
+        }
+      ]
+    },
+    {
+      "test_id": "register-acceptance",
+      "requirement_id": "register",
+      "test_type": "browser",
+      "required": true,
+      "preconditions": [
+        {
+          "assertion": "count",
+          "selector": "[data-testid=\"event-card\"]",
+          "value": 6
+        }
+      ],
+      "actions": [
+        {
+          "action": "click",
+          "selector": "[data-testid=\"event-card\"]:first-child [data-testid=\"register-button\"]"
+        }
+      ],
+      "expected_results": [
+        {
+          "assertion": "visible",
+          "selector": "[data-testid=\"registration-feedback\"]"
+        },
+        {
+          "assertion": "contains_text",
+          "selector": "[data-testid=\"registration-feedback\"]",
+          "value": "Registered"
+        }
+      ]
+    },
+    {
+      "test_id": "layout-acceptance",
+      "requirement_id": "layout",
+      "test_type": "browser",
+      "required": true,
+      "preconditions": [],
+      "actions": [],
+      "expected_results": [
+        {
+          "assertion": "visible",
+          "selector": "nav"
+        },
+        {
+          "assertion": "visible",
+          "selector": "h1"
+        },
+        {
+          "assertion": "visible",
+          "selector": "footer"
+        }
+      ]
+    },
+    {
+      "test_id": "responsive-check",
+      "requirement_id": "responsive",
+      "test_type": "universal",
+      "universal_checks": [
+        "desktop_no_horizontal_overflow",
+        "mobile_no_horizontal_overflow"
+      ]
+    },
+    {
+      "test_id": "accessible-check",
+      "requirement_id": "accessible",
+      "test_type": "universal",
+      "universal_checks": [
+        "desktop_basic_accessibility",
+        "mobile_basic_accessibility"
+      ]
+    }
+  ]
+}

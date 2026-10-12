@@ -1,0 +1,10 @@
+
+{
+  "dependencies": ["."],
+  "graphs": {
+    "agentic_web_collaborative": "agentic_web.workflow:collaborative_app",
+    "agentic_web": "agentic_web.workflow:app",
+    "eventhub": "./test_langgraph.py:app"
+  },
+  "env": ".env"
+}

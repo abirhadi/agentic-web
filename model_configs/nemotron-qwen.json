@@ -1,0 +1,11 @@
+{
+  "model": "qwen/qwen3.5-9b",
+  "planner_model": "nvidia/nemotron-3-nano-4b",
+  "ux_model": "ministral-3-8b-reasoning-2512",
+  "architect_model": "microsoft/phi-4-mini-reasoning",
+  "coordinator_model": "nvidia/nemotron-3-nano-4b",
+  "qa_model": "microsoft/phi-4-mini-reasoning",
+  "temperature": 0.4,
+  "top_p": 0.95,
+  "seed": 1024
+}

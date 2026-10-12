@@ -1,0 +1,22 @@
+{
+  "ux": {
+    "model": "google/gemma-4-e4b",
+    "url": "http://localhost:1234/v1/chat/completions",
+    "temperature": 0.55
+  },
+  "qa": {
+    "model": "google/gemma-4-e4b",
+    "url": "http://localhost:1234/v1/chat/completions",
+    "temperature": 0.35
+  },
+  "coordinator": {
+    "model": "google/gemma-4-e4b",
+    "url": "http://localhost:1234/v1/chat/completions",
+    "temperature": 0.35
+  },
+  "implementer": {
+    "model": "google/gemma-4-e4b",
+    "url": "http://localhost:1234/v1/chat/completions",
+    "temperature": 0.45
+  }
+}

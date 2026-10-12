@@ -1,0 +1,234 @@
+{
+  "task_spec": {
+    "task_id": "portfolio_website",
+    "name": "Personal Portfolio Website",
+    "original_requirements": "Create a responsive personal portfolio website with About, Projects, and Contact sections.",
+    "runtime": {
+      "kind": "single_html",
+      "entrypoint": "index.html"
+    },
+    "features": [
+      {
+        "id": "portfolio_structure",
+        "description": "The website must be structured as a personal portfolio.",
+        "acceptance_criteria": [
+          "The main page must load and display the About section.",
+          "The main page must display the Projects section.",
+          "The main page must display the Contact section."
+        ],
+        "required": true,
+        "verification": "browser"
+      },
+      {
+        "id": "about_section",
+        "description": "Displays information about the individual owner of the portfolio.",
+        "acceptance_criteria": [
+          "The About section must contain descriptive text about the person."
+        ],
+        "required": true,
+        "verification": "browser"
+      },
+      {
+        "id": "projects_section",
+        "description": "Showcases various personal or professional projects.",
+        "acceptance_criteria": [
+          "The Projects section must list multiple individual projects.",
+          "Each listed project must include a title and description."
+        ],
+        "required": true,
+        "verification": "browser"
+      },
+      {
+        "id": "contact_section",
+        "description": "Provides methods for visitors to get in touch with the owner.",
+        "acceptance_criteria": [
+          "The Contact section must contain at least one visible contact method (e.g., form, email link)."
+        ],
+        "required": true,
+        "verification": "browser"
+      }
+    ],
+    "supporting_context": null,
+    "description": "A responsive personal portfolio website featuring dedicated sections for About, Projects, and Contact.",
+    "tests": [
+      {
+        "test_id": "check_sections_desktop",
+        "requirement_id": "portfolio_structure",
+        "test_type": "manual",
+        "universal_checks": [],
+        "preconditions": [],
+        "actions": [
+          {
+            "action": "click",
+            "selector": "#about-section",
+            "value": null
+          },
+          {
+            "action": "click",
+            "selector": "#projects-section",
+            "value": null
+          },
+          {
+            "action": "click",
+            "selector": "#contact-section",
+            "value": null
+          }
+        ],
+        "expected_results": [
+          {
+            "assertion": "visible",
+            "selector": "[data-section='about']"
+          },
+          {
+            "assertion": "visible",
+            "selector": "[data-section='projects']"
+          },
+          {
+            "assertion": "visible",
+            "selector": "[data-section='contact']"
+          }
+        ],
+        "required": true
+      },
+      {
+        "test_id": "check_about_content",
+        "requirement_id": "about_section",
+        "test_type": "manual",
+        "universal_checks": [],
+        "preconditions": [],
+        "actions": [],
+        "expected_results": [
+          {
+            "assertion": "contains_text",
+            "selector": "#about-content p",
+            "value": "About Me"
+          }
+        ],
+        "required": true
+      },
+      {
+        "test_id": "check_projects_list",
+        "requirement_id": "projects_section",
+        "test_type": "manual",
+        "universal_checks": [],
+        "preconditions": [],
+        "actions": [],
+        "expected_results": [
+          {
+            "assertion": "count",
+            "selector": ".project-card",
+            "value": 1
+          }
+        ],
+        "required": true
+      },
+      {
+        "test_id": "check_contact_method",
+        "requirement_id": "contact_section",
+        "test_type": "manual",
+        "universal_checks": [],
+        "preconditions": [],
+        "actions": [],
+        "expected_results": [
+          {
+            "assertion": "visible",
+            "selector": "#contact-form input[type='text']"
+          }
+        ],
+        "required": true
+      },
+      {
+        "test_id": "responsive_mobile_view",
+        "requirement_id": "NFR-responsiveness",
+        "test_type": "universal",
+        "universal_checks": [
+          "mobile_renders",
+          "mobile_basic_accessibility"
+        ],
+        "preconditions": [],
+        "actions": [],
+        "expected_results": []
+      }
+    ]
+  },
+  "requirement_traceability": [
+    {
+      "requirement_id": "portfolio_structure",
+      "origin": "explicit",
+      "rationale": "The user explicitly requested a portfolio website with 'About, Projects, and Contact sections.'",
+      "sources": [
+        {
+          "source": "request",
+          "quote": "Create a responsive personal portfolio website with About, Projects, and Contact sections."
+        }
+      ]
+    },
+    {
+      "requirement_id": "about_section",
+      "origin": "explicit",
+      "rationale": "The user explicitly requested the 'About' section.",
+      "sources": [
+        {
+          "source": "request",
+          "quote": "About"
+        }
+      ]
+    },
+    {
+      "requirement_id": "projects_section",
+      "origin": "explicit",
+      "rationale": "The user explicitly requested the 'Projects' section.",
+      "sources": [
+        {
+          "source": "request",
+          "quote": "Projects"
+        }
+      ]
+    },
+    {
+      "requirement_id": "contact_section",
+      "origin": "explicit",
+      "rationale": "The user explicitly requested the 'Contact' section.",
+      "sources": [
+        {
+          "source": "request",
+          "quote": "Contact"
+        }
+      ]
+    },
+    {
+      "requirement_id": "NFR-responsiveness",
+      "origin": "explicit",
+      "rationale": "The user specified the website must be 'responsive'. This is treated as a nonfunctional requirement.",
+      "sources": [
+        {
+          "source": "request",
+          "quote": "Create a responsive personal portfolio website"
+        }
+      ]
+    }
+  ],
+  "constraint_traceability": [
+    {
+      "target": "runtime",
+      "origin": "framework_default",
+      "rationale": "The framework default runtime is single_html, which is suitable for a simple portfolio website.",
+      "sources": []
+    }
+  ],
+  "missing_information": [
+    {
+      "issue_id": "content_details",
+      "description": "Specific content required for the sections.",
+      "question": "What specific text, images, or data points should be included in the About section, Projects section (e.g., number of projects, project details), and Contact section?",
+      "blocks_generation": true,
+      "requirement_ids": [
+        "about_section",
+        "projects_section",
+        "contact_section"
+      ],
+      "sources": []
+    }
+  ],
+  "unresolved_ambiguities": []
+}

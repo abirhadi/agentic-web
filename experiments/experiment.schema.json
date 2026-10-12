@@ -1,0 +1,614 @@
+{
+  "$defs": {
+    "AgentConfiguration": {
+      "additionalProperties": false,
+      "properties": {
+        "workflow": {
+          "enum": [
+            "baseline",
+            "collaborative"
+          ],
+          "title": "Workflow",
+          "type": "string"
+        },
+        "roles": {
+          "additionalProperties": {
+            "$ref": "#/$defs/ModelIdentity"
+          },
+          "propertyNames": {
+            "enum": [
+              "planner",
+              "implementer",
+              "ux",
+              "architect",
+              "coordinator",
+              "qa"
+            ]
+          },
+          "title": "Roles",
+          "type": "object"
+        },
+        "planner_max_tokens": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Planner Max Tokens"
+        },
+        "review_max_tokens": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Review Max Tokens"
+        },
+        "max_tokens": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Max Tokens"
+        },
+        "reasoning_policy": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ReasoningPolicy"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "manual_verification": {
+          "anyOf": [
+            {
+              "enum": [
+                "on",
+                "off"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Manual Verification"
+        },
+        "max_repair_attempts": {
+          "anyOf": [
+            {
+              "maximum": 10,
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Max Repair Attempts"
+        }
+      },
+      "required": [
+        "workflow",
+        "roles"
+      ],
+      "title": "AgentConfiguration",
+      "type": "object"
+    },
+    "Factors": {
+      "additionalProperties": false,
+      "properties": {
+        "model_configurations": {
+          "items": {
+            "maxLength": 100,
+            "pattern": "^[a-z][a-z0-9_-]*$",
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Model Configurations",
+          "type": "array"
+        },
+        "temperatures": {
+          "items": {
+            "maximum": 2,
+            "minimum": 0,
+            "type": "number"
+          },
+          "minItems": 1,
+          "title": "Temperatures",
+          "type": "array"
+        },
+        "top_ps": {
+          "items": {
+            "exclusiveMinimum": 0,
+            "maximum": 1,
+            "type": "number"
+          },
+          "minItems": 1,
+          "title": "Top Ps",
+          "type": "array"
+        },
+        "seeds": {
+          "items": {
+            "type": "integer"
+          },
+          "minItems": 1,
+          "title": "Seeds",
+          "type": "array"
+        },
+        "variance_conditions": {
+          "items": {
+            "$ref": "#/$defs/VarianceCondition"
+          },
+          "minItems": 1,
+          "title": "Variance Conditions",
+          "type": "array"
+        },
+        "replicates": {
+          "default": 1,
+          "minimum": 1,
+          "title": "Replicates",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "model_configurations",
+        "temperatures",
+        "top_ps",
+        "seeds",
+        "variance_conditions"
+      ],
+      "title": "Factors",
+      "type": "object"
+    },
+    "FrozenTask": {
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "maxLength": 100,
+          "pattern": "^[a-z][a-z0-9_-]*$",
+          "title": "Name",
+          "type": "string"
+        },
+        "specification_path": {
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Specification Path",
+          "type": "string"
+        },
+        "specification_hash": {
+          "pattern": "^[0-9a-f]{64}$",
+          "title": "Specification Hash",
+          "type": "string"
+        },
+        "decomposition_path": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "pattern": "\\S",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Decomposition Path"
+        },
+        "decomposition_hash": {
+          "anyOf": [
+            {
+              "pattern": "^[0-9a-f]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Decomposition Hash"
+        }
+      },
+      "required": [
+        "name",
+        "specification_path",
+        "specification_hash"
+      ],
+      "title": "FrozenTask",
+      "type": "object"
+    },
+    "ModelIdentity": {
+      "additionalProperties": false,
+      "properties": {
+        "model": {
+          "minLength": 1,
+          "pattern": "\\S",
+          "title": "Model",
+          "type": "string"
+        },
+        "family": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "pattern": "\\S",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Family"
+        },
+        "parameter_count": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Parameter Count"
+        },
+        "quantization": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "pattern": "\\S",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Quantization"
+        },
+        "revision": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "pattern": "\\S",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Revision"
+        }
+      },
+      "required": [
+        "model"
+      ],
+      "title": "ModelIdentity",
+      "type": "object"
+    },
+    "PlanningControls": {
+      "additionalProperties": false,
+      "properties": {
+        "strategy": {
+          "const": "full_factorial",
+          "default": "full_factorial",
+          "title": "Strategy",
+          "type": "string"
+        },
+        "candidate_limit": {
+          "anyOf": [
+            {
+              "minimum": 1,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Candidate Limit"
+        },
+        "selection_seed": {
+          "default": 0,
+          "title": "Selection Seed",
+          "type": "integer"
+        }
+      },
+      "title": "PlanningControls",
+      "type": "object"
+    },
+    "ReasoningPolicy": {
+      "additionalProperties": false,
+      "properties": {
+        "policy_version": {
+          "const": "1.0",
+          "default": "1.0",
+          "title": "Policy Version",
+          "type": "string"
+        },
+        "strict_capabilities": {
+          "default": true,
+          "title": "Strict Capabilities",
+          "type": "boolean"
+        },
+        "max_output_tokens": {
+          "default": 32768,
+          "exclusiveMinimum": 0,
+          "title": "Max Output Tokens",
+          "type": "integer"
+        },
+        "timeout_seconds": {
+          "default": 3000,
+          "exclusiveMinimum": 0,
+          "title": "Timeout Seconds",
+          "type": "number"
+        },
+        "roles": {
+          "additionalProperties": {
+            "$ref": "#/$defs/RolePolicy"
+          },
+          "title": "Roles",
+          "type": "object"
+        },
+        "watchdog": {
+          "$ref": "#/$defs/WatchdogPolicy"
+        },
+        "recovery": {
+          "$ref": "#/$defs/RecoveryPolicy"
+        }
+      },
+      "title": "ReasoningPolicy",
+      "type": "object"
+    },
+    "RecoveryPolicy": {
+      "additionalProperties": false,
+      "properties": {
+        "max_attempts": {
+          "default": 1,
+          "maximum": 3,
+          "minimum": 1,
+          "title": "Max Attempts",
+          "type": "integer"
+        },
+        "retry_on": {
+          "items": {
+            "enum": [
+              "transport_failure",
+              "timeout",
+              "stalled_generation"
+            ],
+            "type": "string"
+          },
+          "title": "Retry On",
+          "type": "array"
+        }
+      },
+      "title": "RecoveryPolicy",
+      "type": "object"
+    },
+    "RolePolicy": {
+      "additionalProperties": false,
+      "properties": {
+        "mode": {
+          "default": "auto",
+          "enum": [
+            "auto",
+            "off",
+            "on",
+            "low",
+            "medium",
+            "high"
+          ],
+          "title": "Mode",
+          "type": "string"
+        },
+        "max_output_tokens": {
+          "default": 4096,
+          "exclusiveMinimum": 0,
+          "title": "Max Output Tokens",
+          "type": "integer"
+        },
+        "timeout_seconds": {
+          "default": 3000,
+          "exclusiveMinimum": 0,
+          "title": "Timeout Seconds",
+          "type": "number"
+        }
+      },
+      "title": "RolePolicy",
+      "type": "object"
+    },
+    "VarianceCondition": {
+      "additionalProperties": false,
+      "properties": {
+        "identifier": {
+          "maxLength": 100,
+          "pattern": "^[a-z][a-z0-9_-]*$",
+          "title": "Identifier",
+          "type": "string"
+        },
+        "profile_path": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "pattern": "\\S",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Profile Path"
+        },
+        "profile_hash": {
+          "anyOf": [
+            {
+              "pattern": "^[0-9a-f]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Profile Hash"
+        }
+      },
+      "required": [
+        "identifier"
+      ],
+      "title": "VarianceCondition",
+      "type": "object"
+    },
+    "WatchdogPolicy": {
+      "additionalProperties": false,
+      "properties": {
+        "stall_seconds": {
+          "default": 300,
+          "exclusiveMinimum": 0,
+          "title": "Stall Seconds",
+          "type": "number"
+        },
+        "max_reasoning_chars_without_final": {
+          "default": 65536,
+          "minimum": 1024,
+          "title": "Max Reasoning Chars Without Final",
+          "type": "integer"
+        },
+        "window_chars": {
+          "default": 16384,
+          "maximum": 131072,
+          "minimum": 1024,
+          "title": "Window Chars",
+          "type": "integer"
+        },
+        "segment_chars": {
+          "default": 200,
+          "minimum": 100,
+          "title": "Segment Chars",
+          "type": "integer"
+        },
+        "repetition_count": {
+          "default": 4,
+          "minimum": 3,
+          "title": "Repetition Count",
+          "type": "integer"
+        },
+        "diagnostic_chars": {
+          "default": 4096,
+          "maximum": 16384,
+          "minimum": 0,
+          "title": "Diagnostic Chars",
+          "type": "integer"
+        }
+      },
+      "title": "WatchdogPolicy",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "1.0",
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "experiment_id": {
+      "maxLength": 100,
+      "pattern": "^[a-z][a-z0-9_-]*$",
+      "title": "Experiment Id",
+      "type": "string"
+    },
+    "experiment_version": {
+      "minLength": 1,
+      "pattern": "\\S",
+      "title": "Experiment Version",
+      "type": "string"
+    },
+    "description": {
+      "minLength": 1,
+      "pattern": "\\S",
+      "title": "Description",
+      "type": "string"
+    },
+    "output_root": {
+      "minLength": 1,
+      "pattern": "\\S",
+      "title": "Output Root",
+      "type": "string"
+    },
+    "tasks": {
+      "items": {
+        "$ref": "#/$defs/FrozenTask"
+      },
+      "minItems": 1,
+      "title": "Tasks",
+      "type": "array"
+    },
+    "model_configurations": {
+      "patternProperties": {
+        "^[a-z][a-z0-9_-]*$": {
+          "$ref": "#/$defs/AgentConfiguration"
+        }
+      },
+      "propertyNames": {
+        "maxLength": 100
+      },
+      "title": "Model Configurations",
+      "type": "object"
+    },
+    "factors": {
+      "$ref": "#/$defs/Factors"
+    },
+    "planning": {
+      "$ref": "#/$defs/PlanningControls"
+    },
+    "reasoning_policy": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/ReasoningPolicy"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    }
+  },
+  "required": [
+    "experiment_id",
+    "experiment_version",
+    "description",
+    "output_root",
+    "tasks",
+    "model_configurations",
+    "factors"
+  ],
+  "title": "ExperimentConfig",
+  "type": "object"
+}

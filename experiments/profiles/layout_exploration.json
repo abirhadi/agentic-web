@@ -1,0 +1,11 @@
+{
+  "schema_version": "1.0",
+  "profile_id": "layout-exploration",
+  "dimensions": ["information architecture", "visual layout and hierarchy", "navigation and interaction patterns"],
+  "directive": "Consider alternative groupings and reading sequences for the required content. Compare how different hierarchy, density, and interaction choices support the user's goals; select a coherent solution from the choices the requirements leave open. Do not assume a particular grid, navigation pattern, palette, or section order is required.",
+  "role_guidance": {
+    "ux": "Evaluate content discoverability and interaction clarity across plausible arrangements while preserving accessible names, keyboard use and responsiveness.",
+    "coordinator": "Reconcile exploration into a coherent experience; retain only choices compatible with the authoritative requirements.",
+    "implementer": "Express the selected hierarchy consistently across viewport sizes without changing mandatory selectors or observable outcomes."
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "context_length": 32768,
+  "parallel_slots": 4,
+  "gpu_safety_bytes": 536870912,
+  "ram_safety_bytes": 2147483648,
+  "estimate_padding": 0.1,
+  "prefetch_all_if_gpu_fit": true
+}

@@ -1,0 +1,60 @@
+{
+  "policy_version": "1.0",
+  "strict_capabilities": true,
+  "max_output_tokens": 32768,
+  "timeout_seconds": 3000.0,
+  "roles": {
+    "intake": {
+      "mode": "auto",
+      "max_output_tokens": 16384,
+      "timeout_seconds": 3000.0
+    },
+    "decomposition": {
+      "mode": "auto",
+      "max_output_tokens": 4096,
+      "timeout_seconds": 3000.0
+    },
+    "planner": {
+      "mode": "auto",
+      "max_output_tokens": 6144,
+      "timeout_seconds": 3000.0
+    },
+    "ux": {
+      "mode": "auto",
+      "max_output_tokens": 4096,
+      "timeout_seconds": 3000.0
+    },
+    "architecture": {
+      "mode": "auto",
+      "max_output_tokens": 4096,
+      "timeout_seconds": 3000.0
+    },
+    "coordinator": {
+      "mode": "auto",
+      "max_output_tokens": 6144,
+      "timeout_seconds": 3000.0
+    },
+    "implementer": {
+      "mode": "auto",
+      "max_output_tokens": 16000,
+      "timeout_seconds": 3000.0
+    },
+    "qa": {
+      "mode": "auto",
+      "max_output_tokens": 16384,
+      "timeout_seconds": 3000.0
+    }
+  },
+  "watchdog": {
+    "stall_seconds": 300.0,
+    "max_reasoning_chars_without_final": 65536,
+    "window_chars": 16384,
+    "segment_chars": 200,
+    "repetition_count": 4,
+    "diagnostic_chars": 4096
+  },
+  "recovery": {
+    "max_attempts": 1,
+    "retry_on": []
+  }
+}

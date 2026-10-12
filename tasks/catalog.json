@@ -1,0 +1,162 @@
+{
+  "task_id": "catalog",
+  "name": "Product Catalog",
+  "description": "Searchable product discovery",
+  "original_requirements": "Build an accessible responsive offline Product Catalog with four fictional products. Each product has a name, category and price. Live search filters by name; a category dropdown filters products. Use one HTML file with inline CSS and vanilla JavaScript. Use data-testid product-card, product-search and product-category. Include unique Harbor Mug, two Home products and two Tech products; category dropdown values are Home and Tech, and product cards have data-category.",
+  "runtime": {
+    "kind": "single_html",
+    "entrypoint": "index.html"
+  },
+  "technology_constraints": [
+    "One HTML document with inline CSS and vanilla JavaScript",
+    "Offline operation without external libraries or remote assets"
+  ],
+  "features": [
+    {
+      "id": "list",
+      "description": "Display four fictional products",
+      "acceptance_criteria": [
+        "Four product cards render"
+      ],
+      "required": true
+    },
+    {
+      "id": "search",
+      "description": "Search products by name",
+      "acceptance_criteria": [
+        "Harbor Mug selects exactly one product"
+      ],
+      "required": true
+    },
+    {
+      "id": "filter",
+      "description": "Filter products by category",
+      "acceptance_criteria": [
+        "Home selects the two Home products"
+      ],
+      "required": true
+    }
+  ],
+  "nonfunctional_requirements": [
+    {
+      "id": "responsive",
+      "description": "Render at desktop and mobile widths without horizontal overflow",
+      "acceptance_criteria": [
+        "No overflow at 1366px and 390px"
+      ],
+      "required": true
+    },
+    {
+      "id": "accessible",
+      "description": "Provide document language, title, image alternatives and accessible control labels",
+      "acceptance_criteria": [
+        "Pass the basic named-control checks"
+      ],
+      "required": true
+    }
+  ],
+  "verification": {
+    "required_content": [
+      "Product Catalog"
+    ]
+  },
+  "tests": [
+    {
+      "test_id": "list-acceptance",
+      "requirement_id": "list",
+      "test_type": "browser",
+      "required": true,
+      "preconditions": [],
+      "actions": [],
+      "expected_results": [
+        {
+          "assertion": "count",
+          "selector": "[data-testid=\"product-card\"]",
+          "value": 4
+        }
+      ]
+    },
+    {
+      "test_id": "search-acceptance",
+      "requirement_id": "search",
+      "test_type": "browser",
+      "required": true,
+      "preconditions": [
+        {
+          "assertion": "count",
+          "selector": "[data-testid=\"product-card\"]",
+          "value": 4
+        }
+      ],
+      "actions": [
+        {
+          "action": "fill",
+          "selector": "[data-testid=\"product-search\"]",
+          "value": "Harbor Mug"
+        }
+      ],
+      "expected_results": [
+        {
+          "assertion": "count",
+          "selector": "[data-testid=\"product-card\"]",
+          "value": 1
+        },
+        {
+          "assertion": "contains_text",
+          "selector": "[data-testid=\"product-card\"]",
+          "value": "Harbor Mug"
+        }
+      ]
+    },
+    {
+      "test_id": "filter-acceptance",
+      "requirement_id": "filter",
+      "test_type": "browser",
+      "required": true,
+      "preconditions": [
+        {
+          "assertion": "count",
+          "selector": "[data-testid=\"product-card\"]",
+          "value": 4
+        }
+      ],
+      "actions": [
+        {
+          "action": "select",
+          "selector": "[data-testid=\"product-category\"]",
+          "value": "Home"
+        }
+      ],
+      "expected_results": [
+        {
+          "assertion": "count",
+          "selector": "[data-testid=\"product-card\"]",
+          "value": 2
+        },
+        {
+          "assertion": "count",
+          "selector": "[data-testid=\"product-card\"][data-category=\"Tech\"]",
+          "value": 0
+        }
+      ]
+    },
+    {
+      "test_id": "responsive-check",
+      "requirement_id": "responsive",
+      "test_type": "universal",
+      "universal_checks": [
+        "desktop_no_horizontal_overflow",
+        "mobile_no_horizontal_overflow"
+      ]
+    },
+    {
+      "test_id": "accessible-check",
+      "requirement_id": "accessible",
+      "test_type": "universal",
+      "universal_checks": [
+        "desktop_basic_accessibility",
+        "mobile_basic_accessibility"
+      ]
+    }
+  ]
+}

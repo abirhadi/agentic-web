@@ -1,0 +1,39 @@
+# Local credentials, tool state and the full pre-cleanup preservation archive.
+.env
+.env.*
+!.env.example
+.codex/
+.langgraph_api/
+.preservation/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# Generated research artifacts stay on disk; their original snapshot is on dev.
+/runs/
+/eventhub_experiments/
+/tasks/generated/
+*.log
+/resources.local.json
+/resume.pdf
+.venv/
+venv/
+.coverage
+htmlcov/
+test_prompts/
+
+# Original root documentation remains available locally and in dev.
+/A1.md
+/A2.md
+/A3.md
+/B1.md
+/B2.md
+/B3.md
+/B4.md
+/PHASE2.md
+/RESOURCE_PLACEMENT.md
+/architecture.md
+
+# Local automation and personal experiment configurations
+auto-codex/
+/experiments/resume_qat_*

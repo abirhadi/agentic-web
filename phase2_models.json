@@ -1,0 +1,14 @@
+{
+  "planner_model": "google/gemma-4-e4b",
+  "ux_model": "ministral-3-8b-reasoning-2512",
+  "architect_model": "qwen2.5-coder-7b-instruct",
+  "coordinator_model": "google/gemma-4-e4b",
+  "model": "qwen2.5-coder-7b-instruct",
+  "qa_model": "microsoft/phi-4-mini-reasoning",
+  "temperature": 0.4,
+  "top_p": 0.95,
+  "seed": 1025,
+  "planner_max_tokens": 2048,
+  "review_max_tokens": 3072,
+  "max_tokens": 8192
+}

@@ -1,0 +1,380 @@
+{
+  "task_id": "todo",
+  "name": "Task Tracker",
+  "description": "Personal task management without a backend",
+  "original_requirements": "Build an accessible responsive offline personal Task Tracker. Start with an empty list. A labeled task-title input and Add task button must add a task. Every task has a completion checkbox and a Delete button. Use one standalone HTML document with inline CSS and vanilla JavaScript. Use data-testid task-title, add-task, task-item, complete-task and delete-task. Persistence is optional.",
+  "runtime": {
+    "kind": "single_html",
+    "entrypoint": "index.html"
+  },
+  "technology_constraints": [
+    "One HTML document with inline CSS and vanilla JavaScript",
+    "Offline operation without external libraries or remote assets"
+  ],
+  "features": [
+    {
+      "id": "add",
+      "description": "Add a personal task",
+      "acceptance_criteria": [
+        "New task text is visible in the list"
+      ],
+      "required": true
+    },
+    {
+      "id": "complete",
+      "description": "Mark a task completed",
+      "acceptance_criteria": [
+        "The task completion checkbox is checked"
+      ],
+      "required": true
+    },
+    {
+      "id": "delete",
+      "description": "Delete a personal task",
+      "acceptance_criteria": [
+        "The task is removed from the list"
+      ],
+      "required": true
+    },
+    {
+      "id": "persistence",
+      "description": "Retain tasks between page loads",
+      "acceptance_criteria": [
+        "Tasks survive reload"
+      ],
+      "required": false
+    }
+  ],
+  "nonfunctional_requirements": [
+    {
+      "id": "responsive",
+      "description": "Render at desktop and mobile widths without horizontal overflow",
+      "acceptance_criteria": [
+        "No overflow at 1366px and 390px"
+      ],
+      "required": true
+    },
+    {
+      "id": "accessible",
+      "description": "Provide document language, title, image alternatives and accessible control labels",
+      "acceptance_criteria": [
+        "Pass the basic named-control checks"
+      ],
+      "required": true
+    }
+  ],
+  "verification": {
+    "required_content": [
+      "Task Tracker"
+    ]
+  },
+  "tests": [
+    {
+      "test_id": "add-acceptance",
+      "requirement_id": "add",
+      "test_type": "browser",
+      "required": true,
+      "preconditions": [
+        {
+          "assertion": "count",
+          "selector": "[data-testid=\"task-item\"]",
+          "value": 0
+        },
+        {
+          "assertion": "count",
+          "selector": "[data-testid=\"task-title\"]",
+          "value": 1
+        },
+        {
+          "assertion": "accessible_name",
+          "selector": "[data-testid=\"task-title\"]"
+        },
+        {
+          "assertion": "count",
+          "selector": "[data-testid=\"add-task\"]",
+          "value": 1
+        },
+        {
+          "assertion": "accessible_name",
+          "selector": "[data-testid=\"add-task\"]"
+        }
+      ],
+      "actions": [
+        {
+          "action": "fill",
+          "selector": "[data-testid=\"task-title\"]",
+          "value": "Buy groceries"
+        },
+        {
+          "action": "click",
+          "selector": "[data-testid=\"add-task\"]"
+        }
+      ],
+      "expected_results": [
+        {
+          "assertion": "count",
+          "selector": "[data-testid=\"task-item\"]",
+          "value": 1
+        },
+        {
+          "assertion": "contains_text",
+          "selector": "[data-testid=\"task-item\"]",
+          "value": "Buy groceries"
+        },
+        {
+          "assertion": "count",
+          "selector": "[data-testid=\"task-title\"]",
+          "value": 1
+        },
+        {
+          "assertion": "count",
+          "selector": "[data-testid=\"complete-task\"]",
+          "value": 1
+        },
+        {
+          "assertion": "accessible_name",
+          "selector": "[data-testid=\"complete-task\"]"
+        },
+        {
+          "assertion": "not_checked",
+          "selector": "[data-testid=\"complete-task\"]"
+        },
+        {
+          "assertion": "count",
+          "selector": "[data-testid=\"delete-task\"]",
+          "value": 1
+        },
+        {
+          "assertion": "accessible_name",
+          "selector": "[data-testid=\"delete-task\"]"
+        }
+      ]
+    },
+    {
+      "test_id": "complete-acceptance",
+      "requirement_id": "complete",
+      "test_type": "browser",
+      "required": true,
+      "preconditions": [
+        {
+          "assertion": "count",
+          "selector": "[data-testid=\"task-item\"]",
+          "value": 0
+        },
+        {
+          "assertion": "count",
+          "selector": "[data-testid=\"task-title\"]",
+          "value": 1
+        },
+        {
+          "assertion": "accessible_name",
+          "selector": "[data-testid=\"task-title\"]"
+        },
+        {
+          "assertion": "count",
+          "selector": "[data-testid=\"add-task\"]",
+          "value": 1
+        },
+        {
+          "assertion": "accessible_name",
+          "selector": "[data-testid=\"add-task\"]"
+        }
+      ],
+      "actions": [
+        {
+          "action": "fill",
+          "selector": "[data-testid=\"task-title\"]",
+          "value": "Pay bill"
+        },
+        {
+          "action": "click",
+          "selector": "[data-testid=\"add-task\"]",
+          "assert_after": [
+            {
+              "assertion": "count",
+              "selector": "[data-testid=\"task-item\"]",
+              "value": 1
+            },
+            {
+              "assertion": "contains_text",
+              "selector": "[data-testid=\"task-item\"]",
+              "value": "Pay bill"
+            },
+            {
+              "assertion": "count",
+              "selector": "[data-testid=\"task-title\"]",
+              "value": 1
+            },
+            {
+              "assertion": "count",
+              "selector": "[data-testid=\"complete-task\"]",
+              "value": 1
+            },
+            {
+              "assertion": "accessible_name",
+              "selector": "[data-testid=\"complete-task\"]"
+            },
+            {
+              "assertion": "not_checked",
+              "selector": "[data-testid=\"complete-task\"]"
+            },
+            {
+              "assertion": "count",
+              "selector": "[data-testid=\"delete-task\"]",
+              "value": 1
+            },
+            {
+              "assertion": "accessible_name",
+              "selector": "[data-testid=\"delete-task\"]"
+            }
+          ]
+        },
+        {
+          "action": "check",
+          "selector": "[data-testid=\"complete-task\"]"
+        }
+      ],
+      "expected_results": [
+        {
+          "assertion": "checked",
+          "selector": "[data-testid=\"complete-task\"]"
+        },
+        {
+          "assertion": "count",
+          "selector": "[data-testid=\"task-item\"]",
+          "value": 1
+        },
+        {
+          "assertion": "contains_text",
+          "selector": "[data-testid=\"task-item\"]",
+          "value": "Pay bill"
+        }
+      ]
+    },
+    {
+      "test_id": "delete-acceptance",
+      "requirement_id": "delete",
+      "test_type": "browser",
+      "required": true,
+      "preconditions": [
+        {
+          "assertion": "count",
+          "selector": "[data-testid=\"task-item\"]",
+          "value": 0
+        },
+        {
+          "assertion": "count",
+          "selector": "[data-testid=\"task-title\"]",
+          "value": 1
+        },
+        {
+          "assertion": "accessible_name",
+          "selector": "[data-testid=\"task-title\"]"
+        },
+        {
+          "assertion": "count",
+          "selector": "[data-testid=\"add-task\"]",
+          "value": 1
+        },
+        {
+          "assertion": "accessible_name",
+          "selector": "[data-testid=\"add-task\"]"
+        }
+      ],
+      "actions": [
+        {
+          "action": "fill",
+          "selector": "[data-testid=\"task-title\"]",
+          "value": "Remove me"
+        },
+        {
+          "action": "click",
+          "selector": "[data-testid=\"add-task\"]",
+          "assert_after": [
+            {
+              "assertion": "count",
+              "selector": "[data-testid=\"task-item\"]",
+              "value": 1
+            },
+            {
+              "assertion": "contains_text",
+              "selector": "[data-testid=\"task-item\"]",
+              "value": "Remove me"
+            },
+            {
+              "assertion": "count",
+              "selector": "[data-testid=\"task-title\"]",
+              "value": 1
+            },
+            {
+              "assertion": "count",
+              "selector": "[data-testid=\"complete-task\"]",
+              "value": 1
+            },
+            {
+              "assertion": "accessible_name",
+              "selector": "[data-testid=\"complete-task\"]"
+            },
+            {
+              "assertion": "not_checked",
+              "selector": "[data-testid=\"complete-task\"]"
+            },
+            {
+              "assertion": "count",
+              "selector": "[data-testid=\"delete-task\"]",
+              "value": 1
+            },
+            {
+              "assertion": "accessible_name",
+              "selector": "[data-testid=\"delete-task\"]"
+            }
+          ]
+        },
+        {
+          "action": "click",
+          "selector": "[data-testid=\"task-item\"] [data-testid=\"delete-task\"]"
+        }
+      ],
+      "expected_results": [
+        {
+          "assertion": "count",
+          "selector": "[data-testid=\"task-item\"]",
+          "value": 0
+        },
+        {
+          "assertion": "count",
+          "selector": "[data-testid=\"task-title\"]",
+          "value": 1
+        },
+        {
+          "assertion": "count",
+          "selector": "[data-testid=\"complete-task\"]",
+          "value": 0
+        },
+        {
+          "assertion": "count",
+          "selector": "[data-testid=\"delete-task\"]",
+          "value": 0
+        }
+      ]
+    },
+    {
+      "test_id": "responsive-check",
+      "requirement_id": "responsive",
+      "test_type": "universal",
+      "universal_checks": [
+        "desktop_no_horizontal_overflow",
+        "mobile_no_horizontal_overflow"
+      ]
+    },
+    {
+      "test_id": "accessible-check",
+      "requirement_id": "accessible",
+      "test_type": "universal",
+      "universal_checks": [
+        "desktop_basic_accessibility",
+        "mobile_basic_accessibility"
+      ]
+    }
+  ]
+}

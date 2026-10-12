@@ -1,0 +1,129 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "resume-pilot-b1",
+  "experiment_version": "1.0",
+  "description": "Planning-only paired variance pilot on the frozen resume website specification.",
+  "output_root": "../runs/experiments",
+  "tasks": [
+    {
+      "name": "example",
+      "specification_path": "../tasks/todo.json",
+      "specification_hash": "72f10615f3e48fd0f0065afb499f8fcd5b99bfbd5bc7d7ac351cf0e1facee868"
+    }
+  ],
+  "model_configurations": {
+    "gemma-baseline": {
+      "workflow": "baseline",
+      "roles": {
+        "planner": {
+          "model": "google/gemma-4-e4b",
+          "family": "Gemma",
+          "parameter_count": null,
+          "quantization": null,
+          "revision": null
+        },
+        "implementer": {
+          "model": "google/gemma-4-e4b",
+          "family": "Gemma",
+          "parameter_count": null,
+          "quantization": null,
+          "revision": null
+        }
+      },
+      "planner_max_tokens": null,
+      "review_max_tokens": null,
+      "max_tokens": null
+    },
+    "heterogeneous-collaborative": {
+      "workflow": "collaborative",
+      "roles": {
+        "planner": {
+          "model": "google/gemma-4-e4b",
+          "family": "Gemma",
+          "parameter_count": null,
+          "quantization": null,
+          "revision": null
+        },
+        "implementer": {
+          "model": "google/gemma-4-e4b",
+          "family": "Gemma",
+          "parameter_count": null,
+          "quantization": null,
+          "revision": null
+        },
+        "ux": {
+          "model": "ministral-3-8b-reasoning-2512",
+          "family": "Ministral",
+          "parameter_count": null,
+          "quantization": null,
+          "revision": null
+        },
+        "architect": {
+          "model": "microsoft/phi-4-mini-reasoning",
+          "family": "Phi",
+          "parameter_count": null,
+          "quantization": null,
+          "revision": null
+        },
+        "coordinator": {
+          "model": "google/gemma-4-e4b",
+          "family": "Gemma",
+          "parameter_count": null,
+          "quantization": null,
+          "revision": null
+        },
+        "qa": {
+          "model": "microsoft/phi-4-mini-reasoning",
+          "family": "Phi",
+          "parameter_count": null,
+          "quantization": null,
+          "revision": null
+        }
+      },
+      "planner_max_tokens": null,
+      "review_max_tokens": null,
+      "max_tokens": null
+    }
+  },
+  "factors": {
+    "model_configurations": [
+      "gemma-baseline",
+      "heterogeneous-collaborative"
+    ],
+    "temperatures": [
+      0.4,
+      0.8
+    ],
+    "top_ps": [
+      0.95
+    ],
+    "seeds": [
+      1024,
+      1025,
+      1026
+    ],
+    "variance_conditions": [
+      {
+        "identifier": "control",
+        "profile_path": null,
+        "profile_hash": null
+      },
+      {
+        "identifier": "layout_variance",
+        "profile_path": null,
+        "profile_hash": null
+      },
+      {
+        "identifier": "architecture_variance",
+        "profile_path": null,
+        "profile_hash": null
+      }
+    ],
+    "replicates": 1
+  },
+  "planning": {
+    "strategy": "full_factorial",
+    "candidate_limit": null,
+    "selection_seed": 1024
+  }
+}

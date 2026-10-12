@@ -1,0 +1,11 @@
+{
+  "schema_version": "1.0",
+  "profile_id": "architecture-exploration",
+  "dimensions": ["component organization", "state-management approach", "implementation architecture"],
+  "directive": "Compare plausible boundaries for responsibilities, state ownership, event handling, and rendering within the approved runtime. Select an internally coherent approach suited to the required behavior rather than assuming one default organization. Keep implementation choices open until their tradeoffs have been considered; do not introduce new infrastructure or dependencies.",
+  "role_guidance": {
+    "planner": "Describe outcome-preserving alternatives without changing the frozen decomposition or turning implementation preferences into requirements.",
+    "architect": "Consider tradeoffs among state ownership, update flow, and component responsibilities; preserve the approved runtime and technology constraints.",
+    "implementer": "Implement the selected organization consistently while maintaining required DOM attributes, accessible controls, and functional outcomes."
+  }
+}
