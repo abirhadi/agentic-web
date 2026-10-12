@@ -1,5 +1,27 @@
 # Resource-aware placement
 
+```mermaid
+flowchart TD
+    Stage[Models required by the ready stage] --> Observe[Observe hardware and model residency]
+    Observe --> Estimate[Estimate context and slot memory requirements]
+    Estimate --> Plans[Evaluate joint placement and eligible idle reclamation]
+    Plans --> Feasible{Feasible plan?}
+    Feasible -->|No| Fail([Admission failure])
+    Feasible -->|Yes| Reclaim[Unload selected owned idle instances]
+    Reclaim --> Measure[Recheck physical resources after reclamation]
+    Measure --> Replan{Placement still feasible?}
+    Replan -->|No| Fail
+    Replan -->|Yes| Load[Reuse or load models and reserve leases]
+    Load --> Infer[Run ready agents concurrently]
+    Infer --> Release[Release active leases]
+    Release --> Next[Next graph stage]
+    Next --> Stage
+    Release -->|Job complete| Cleanup[Unload owned models when safe]
+```
+
+This depicts the current local scheduler, including its single post-reclamation replan. It does not imply remote-node routing or repeated reclamation after a downgrade. Active, reserved, externally owned and shared instances remain protected.
+
+
 Enable placement with `generate --resource-config resources.local.json`. Baseline and collaborative graph dependencies, schemas, contracts and verification are unchanged. UX and Architecture execute concurrently; their models are admitted together before the existing fork. Without this flag, model residency remains manually managed, and independent calls still have no framework inference lock.
 
 `hardware.py` discovers NVIDIA GPUs through `nvidia-smi` and physical available RAM through the OS. `resource_scheduler.py` contains backend-independent admission and residency leases. `lmstudio_placement.py` implements the local LM Studio adapter. Another backend can implement `PlacementBackend` and supply its hardware discovery to `ResourceScheduler`, then inject it through `build_graph(resource_scheduler=...)`.

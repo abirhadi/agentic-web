@@ -4,21 +4,38 @@ The baseline is still the default. The collaborative workflow extends the same t
 
 ## Graphs
 
-```text
-Baseline:
-START -> task_loader -> planner -> implementer -> verifier -> END
+### Baseline
 
-Collaborative with an existing manifest:
-START -> task_loader -> planner
-                            |-> ux_agent ------------|
-                            |-> architecture_agent --|-> coordinator
-                                                           -> implementer
-                                                           -> verifier
-                                                           -> qa_critic
-                                                           -> acceptance_gate -> END
+```mermaid
+flowchart TD
+    Start([Start]) --> Loader[Task loader]
+    Loader --> Planner[Planner]
+    Planner --> Implementer[Implementer]
+    Implementer --> Verifier[Deterministic verifier]
+    Verifier -->|Eligible failure and repair budget remains| Implementer
+    Verifier -->|Terminal result| Done([End])
 ```
 
-The Coordinator uses a LangGraph join edge and executes once after both branches finish. Each branch writes a separate typed state field and separate error field. Neither specialist receives its sibling's analysis. Independent model calls run concurrently without a shared inference lock. Optional resource placement prepares both specialists before the existing fork; see [RESOURCE_PLACEMENT.md](RESOURCE_PLACEMENT.md). No prompt optimizer or repair node is implemented.
+### Collaborative generation
+
+```mermaid
+flowchart TD
+    Start([Validated manifest]) --> Loader[Task loader]
+    Loader --> Planner[Planner]
+    Planner --> UX[UX agent]
+    Planner --> Architect[Architecture agent]
+    UX --> Join{Both specialists complete}
+    Architect --> Join
+    Join --> Coordinator[Coordinator]
+    Coordinator --> Implementer[Implementer]
+    Implementer --> Verifier[Deterministic verifier]
+    Verifier -->|Eligible failure and repair budget remains| Implementer
+    Verifier -->|Terminal result| QA[Advisory QA]
+    QA --> Gate[Deterministic acceptance gate]
+    Gate --> Done([Accepted or rejected])
+```
+
+The Coordinator uses a LangGraph join edge and executes once after both branches finish. Each branch writes a separate typed state field and separate error field. Neither specialist receives its sibling's analysis. Independent model calls run concurrently without a shared inference lock. Optional resource placement prepares both specialists before the existing fork; see [RESOURCE_PLACEMENT.md](RESOURCE_PLACEMENT.md). Bounded repair uses the existing Implementer node; no separate repair agent or prompt optimizer is added.
 
 A1 integrates a `requirements_analyst` node into this same collaborative graph. With `prompt` (or free-text `requirements`) and no manifest, `START` routes through analysis before `task_loader`; ready specifications proceed through the stages above. Blocking missing information, unsupported runtime needs and analysis failures stop before generation. `analyze_only: true` previews analysis in this graph. Existing `task_path`/`task_spec` inputs bypass analysis, preserving independent candidate experiments from a canonical manifest. See [A1.md](A1.md#interactive-testing-in-langgraph-studio).
 

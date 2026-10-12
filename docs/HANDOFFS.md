@@ -27,6 +27,25 @@ Use `-HandoffPolicy` to select an existing policy with `mode=off` or `collaborat
 `-ReviewPolicy` explicitly selects historical review behavior when reproducing an
 older procedure. Resume consumes frozen inputs and never reruns either policy.
 
+```mermaid
+flowchart TD
+    Input[Prompt and optional documents] --> Prepare[Requirements preparation]
+    Prepare --> Analyst[Requirements Analyst]
+    Analyst --> Validate{Draft valid?}
+    Validate -->|No - correction budget remains| Revision[Analyst revision]
+    Revision --> Validate
+    Validate -->|No - budget exhausted or no progress| Stop([Stop with diagnostics])
+    Validate -->|Yes - collaborative handoff| Decomposer[Decomposer]
+    Decomposer -->|Grounded feedback and budget remains| Revision
+    Decomposer -->|Unresolved or budget exhausted| Stop
+    Decomposer -->|Accepted| Finalize[Publish validated canonical outputs]
+    Validate -->|Yes - one-shot intake| Finalize
+    Finalize --> Inspect{Analysis only?}
+    Inspect -->|Yes| Preview([Inspect artifacts])
+    Inspect -->|No| Loader[Task loader]
+    Loader --> Generation[Existing generation workflow]
+```
+
 The shared LangGraph nodes run preparation → Analyst → validation → Decomposer.
 Acceptance publishes the canonical task and compatible validated decomposition.
 Feedback routes to Analyst revision and then back to actual decomposition.

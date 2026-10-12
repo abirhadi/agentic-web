@@ -3,6 +3,20 @@
 Application-independent website generation using LangGraph and local LM Studio models.
 The supported runtime produces one offline HTML document with inline CSS and JavaScript.
 
+```mermaid
+flowchart LR
+    Request[Prompt and optional documents] --> Intake[Validated intake and decomposition]
+    Intake --> Frozen[Frozen canonical inputs]
+    Manifest[Existing task manifest] --> Frozen
+    Frozen --> Matrix[Candidate matrix]
+    Matrix --> Generate[Baseline or collaborative generation]
+    Generate --> Verify[Deterministic verification]
+    Verify -->|Eligible bounded repair| Generate
+    Verify --> Results[Artifacts and acceptance results]
+```
+
+The repair path revisits the Implementer, preserving upstream plans. See the [architecture diagrams](docs/architecture.md) for node-level detail.
+
 Start an experiment with a prompt, model configuration, and count **per category**:
 
 ```powershell

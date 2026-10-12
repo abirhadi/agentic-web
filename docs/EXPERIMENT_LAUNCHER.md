@@ -1,5 +1,19 @@
 # Start an experiment from a prompt
 
+```mermaid
+flowchart TD
+    Input[Prompt, optional document, model config and count] --> Freeze[Freeze experiment settings]
+    Freeze --> Intake[Intake and decomposition]
+    Intake --> Canonical[Validate canonical inputs and hashes]
+    Canonical --> Plan[Plan candidates for each category]
+    Plan --> Batch[Execute candidates sequentially]
+    Batch --> Records[Preserve candidate results and progress]
+    Resume[Resume frozen plan] --> Check[Reconstruct checkpoint state]
+    Check -->|Eligible remaining candidates| Batch
+    Check -->|Already complete| Summary[Return recorded summary]
+```
+
+
 From the activated `agentic-web` environment:
 
 ```powershell
